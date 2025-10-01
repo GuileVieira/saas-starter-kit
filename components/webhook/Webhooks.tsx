@@ -1,18 +1,17 @@
-import { WithLoadingAndError } from '@/components/shared';
-import { EmptyState } from '@/components/shared';
+import { EmptyState, WithLoadingAndError } from '@/components/shared';
+import { Button } from '@/components/ui/button';
+import { Table } from '@/components/shared/table/Table';
+import { CreateWebhook, EditWebhook } from '@/components/webhook';
+import { defaultHeaders } from '@/lib/common';
 import { Team } from '@prisma/client';
 import useWebhooks from 'hooks/useWebhooks';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import type { EndpointOut } from 'svix';
-
-import { CreateWebhook, EditWebhook } from '@/components/webhook';
-import { defaultHeaders } from '@/lib/common';
 import type { ApiResponse } from 'types';
+
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import { Table } from '@/components/shared/table/Table';
 
 const Webhooks = ({ team }: { team: Team }) => {
   const { t } = useTranslation('common');
@@ -70,7 +69,7 @@ const Webhooks = ({ team }: { team: Team }) => {
             </p>
           </div>
           <Button
-            color="primary"
+            variant="primary"
             size="md"
             onClick={() => setCreateWebhookVisible(!createWebhookVisible)}
           >

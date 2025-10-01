@@ -1,16 +1,17 @@
 import { InputWithCopyButton, InputWithLabel } from '@/components/shared';
+import { Button } from '@/components/ui/button';
+import { defaultHeaders } from '@/lib/common';
+import { createApiKeySchema } from '@/lib/zod';
 import type { Team } from '@prisma/client';
+import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
-import { Button } from 'react-daisyui';
 import { toast } from 'react-hot-toast';
 import { useSWRConfig } from 'swr';
 import type { ApiResponse } from 'types';
-import Modal from '../shared/Modal';
-import { defaultHeaders } from '@/lib/common';
-import { useFormik } from 'formik';
 import { z } from 'zod';
-import { createApiKeySchema } from '@/lib/zod';
+
+import Modal from '../shared/Modal';
 
 const NewAPIKey = ({
   team,
@@ -107,7 +108,7 @@ const CreateAPIKeyForm = ({
           {t('close')}
         </Button>
         <Button
-          color="primary"
+          variant="primary"
           type="submit"
           loading={formik.isSubmitting}
           disabled={!formik.dirty || !formik.isValid}

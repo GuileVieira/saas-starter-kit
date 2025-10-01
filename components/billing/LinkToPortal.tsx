@@ -1,12 +1,12 @@
-import toast from 'react-hot-toast';
-import { Button } from 'react-daisyui';
-import { useState } from 'react';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { Card } from '@/components/shared';
-import { Team } from '@prisma/client';
+import { Button } from '@/components/ui/button';
 import { defaultHeaders } from '@/lib/common';
+import { Team } from '@prisma/client';
 import type { ApiResponse } from 'types';
 
 interface LinkToPortalProps {
@@ -50,9 +50,8 @@ const LinkToPortal = ({ team }: LinkToPortalProps) => {
         <div>
           <Button
             type="button"
-            color="primary"
+            variant="secondary"
             size="sm"
-            variant="outline"
             loading={loading}
             onClick={() => openStripePortal()}
           >

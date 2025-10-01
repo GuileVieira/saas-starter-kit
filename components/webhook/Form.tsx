@@ -1,14 +1,15 @@
 import { InputWithLabel } from '@/components/shared';
+import { Button } from '@/components/ui/button';
+import { maxLengthPolicies } from '@/lib/common';
 import type { FormikConfig } from 'formik';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { Button } from 'react-daisyui';
-import type { WebhookFormSchema } from 'types';
 import * as Yup from 'yup';
-import Modal from '../shared/Modal';
+import type { WebhookFormSchema } from 'types';
+
 import { EventTypes } from '@/components/webhook';
-import { maxLengthPolicies } from '@/lib/common';
+import Modal from '../shared/Modal';
 
 interface FormProps {
   visible: boolean;
@@ -52,7 +53,7 @@ const Form = ({
         <Modal.Header>{title}</Modal.Header>
         <Modal.Description>{t('webhook-create-desc')}</Modal.Description>
         <Modal.Body>
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col gap-4">
             <InputWithLabel
               name="name"
               label="Description"
@@ -70,12 +71,12 @@ const Form = ({
               error={formik.errors.url}
               descriptionText="The endpoint URL must be HTTPS"
             />
-            <div className="divider"></div>
-            <div className="form-control w-full">
-              <label className="label">
-                <span className="label-text">{t('events-to-send')}</span>
-              </label>
-              <p className="ml-1 mb-3 text-sm font-normal text-gray-500">
+            <div className="h-px w-full bg-border/40" />
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-muted-foreground">
+                {t('events-to-send')}
+              </span>
+              <p className="text-sm text-muted-foreground">
                 {t('events-description')}
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -101,10 +102,11 @@ const Form = ({
           </Button>
           <Button
             type="submit"
-            color="primary"
+            variant="primary"
             loading={formik.isSubmitting}
-            active={formik.dirty}
             size="md"
+            fullWidth={false}
+            disabled={!formik.dirty || !formik.isValid}
           >
             {editMode ? t('update-webhook') : t('create-webhook')}
           </Button>

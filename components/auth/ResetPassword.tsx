@@ -1,4 +1,5 @@
 import { InputWithLabel } from '@/components/shared';
+import { Button } from '@/components/ui/button';
 import {
   defaultHeaders,
   maxLengthPolicies,
@@ -8,7 +9,6 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Button } from 'react-daisyui';
 import { toast } from 'react-hot-toast';
 import type { ApiResponse } from 'types';
 import * as Yup from 'yup';
@@ -94,11 +94,11 @@ const ResetPassword = () => {
         <div className="mt-4">
           <Button
             type="submit"
-            color="primary"
+            variant="primary"
             loading={submitting}
-            active={formik.dirty}
             fullWidth
             size="md"
+            disabled={!formik.dirty || !formik.isValid}
           >
             {t('reset-password')}
           </Button>

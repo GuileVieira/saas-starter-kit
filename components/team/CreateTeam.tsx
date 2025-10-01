@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { defaultHeaders, maxLengthPolicies } from '@/lib/common';
 import type { Team } from '@prisma/client';
 import { useFormik } from 'formik';
@@ -5,10 +6,10 @@ import useTeams from 'hooks/useTeams';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import type { ApiResponse } from 'types';
 import * as Yup from 'yup';
+
 import Modal from '../shared/Modal';
 import { InputWithLabel } from '../shared';
 
@@ -77,7 +78,7 @@ const CreateTeam = ({ visible, setVisible }: CreateTeamProps) => {
           </Button>
           <Button
             type="submit"
-            color="primary"
+            variant="primary"
             loading={formik.isSubmitting}
             size="md"
             disabled={!formik.dirty || !formik.isValid}

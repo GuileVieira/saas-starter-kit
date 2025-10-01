@@ -1,6 +1,9 @@
 import { AuthLayout } from '@/components/layouts';
 import { InputWithLabel } from '@/components/shared';
+import { Button } from '@/components/ui/button';
+import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
 import { defaultHeaders, maxLengthPolicies } from '@/lib/common';
+import env from '@/lib/env';
 import { useFormik } from 'formik';
 import type {
   GetServerSidePropsContext,
@@ -11,13 +14,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRef, type ReactElement, useState } from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
+import ReCAPTCHA from 'react-google-recaptcha';
 import type { ApiResponse, NextPageWithLayout } from 'types';
 import * as Yup from 'yup';
-import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
-import ReCAPTCHA from 'react-google-recaptcha';
-import env from '@/lib/env';
 
 const ForgotPassword: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -83,11 +83,11 @@ const ForgotPassword: NextPageWithLayout<
           <div className="mt-4">
             <Button
               type="submit"
-              color="primary"
+              variant="primary"
               loading={formik.isSubmitting}
-              active={formik.dirty}
               fullWidth
               size="md"
+              disabled={!formik.dirty || !formik.isValid}
             >
               {t('email-password-reset-link')}
             </Button>

@@ -1,12 +1,11 @@
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 
 import { Card, InputWithLabel } from '@/components/shared';
-import { defaultHeaders, passwordPolicies } from '@/lib/common';
-import { maxLengthPolicies } from '@/lib/common';
+import { Button } from '@/components/ui/button';
+import { defaultHeaders, passwordPolicies, maxLengthPolicies } from '@/lib/common';
 
 const schema = Yup.object().shape({
   currentPassword: Yup.string().required().max(maxLengthPolicies.password),
@@ -88,7 +87,7 @@ const UpdatePassword = () => {
             <div className="flex justify-end">
               <Button
                 type="submit"
-                color="primary"
+                variant="primary"
                 loading={formik.isSubmitting}
                 disabled={!formik.dirty || !formik.isValid}
                 size="md"

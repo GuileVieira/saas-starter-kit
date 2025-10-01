@@ -1,8 +1,7 @@
-import { Button } from 'react-daisyui';
-import { useTranslation } from 'next-i18next';
-
+import { Button } from '@/components/ui/button';
 import { Invitation } from '@prisma/client';
 import { useCustomSignOut } from 'hooks/useCustomSignout';
+import { useTranslation } from 'next-i18next';
 
 interface EmailDomainMismatchProps {
   invitation: Invitation;
@@ -32,9 +31,8 @@ const EmailDomainMismatch = ({
       </p>
       <Button
         fullWidth
-        color="error"
+        variant="destructive"
         size="md"
-        variant="outline"
         onClick={signOut}
       >
         {t('logout')}

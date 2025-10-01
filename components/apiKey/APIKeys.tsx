@@ -1,14 +1,15 @@
 import { EmptyState, WithLoadingAndError } from '@/components/shared';
 import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
+import { Button } from '@/components/ui/button';
+import { Table } from '@/components/shared/table/Table';
+import useAPIKeys from 'hooks/useAPIKeys';
 import type { ApiKey, Team } from '@prisma/client';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
-import { Button } from 'react-daisyui';
 import { toast } from 'react-hot-toast';
 import type { ApiResponse } from 'types';
+
 import NewAPIKey from './NewAPIKey';
-import useAPIKeys from 'hooks/useAPIKeys';
-import { Table } from '@/components/shared/table/Table';
 
 interface APIKeysProps {
   team: Team;
@@ -63,7 +64,7 @@ const APIKeys = ({ team }: APIKeysProps) => {
             </p>
           </div>
           <Button
-            color="primary"
+            variant="primary"
             size="md"
             onClick={() => setCreateModalVisible(true)}
           >

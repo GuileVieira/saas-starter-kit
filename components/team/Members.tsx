@@ -1,19 +1,19 @@
 import { Error, LetterAvatar, Loading } from '@/components/shared';
+import { Button } from '@/components/ui/button';
+import { InviteMember } from '@/components/invitation';
+import { Table } from '@/components/shared/table/Table';
+import { defaultHeaders } from '@/lib/common';
 import { Team, TeamMember } from '@prisma/client';
 import useCanAccess from 'hooks/useCanAccess';
 import useTeamMembers, { TeamMemberWithUser } from 'hooks/useTeamMembers';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { Button } from 'react-daisyui';
-import toast from 'react-hot-toast';
-
-import { InviteMember } from '@/components/invitation';
-import UpdateMemberRole from './UpdateMemberRole';
-import { defaultHeaders } from '@/lib/common';
-import type { ApiResponse } from 'types';
-import ConfirmationDialog from '../shared/ConfirmationDialog';
 import { useState } from 'react';
-import { Table } from '@/components/shared/table/Table';
+import toast from 'react-hot-toast';
+import type { ApiResponse } from 'types';
+
+import ConfirmationDialog from '../shared/ConfirmationDialog';
+import UpdateMemberRole from './UpdateMemberRole';
 
 const Members = ({ team }: { team: Team }) => {
   const { data: session } = useSession();
@@ -95,7 +95,11 @@ const Members = ({ team }: { team: Team }) => {
             {t('members-description')}
           </p>
         </div>
-        <Button color="primary" size="md" onClick={() => setVisible(!visible)}>
+        <Button
+          variant="primary"
+          size="md"
+          onClick={() => setVisible(!visible)}
+        >
           {t('add-member')}
         </Button>
       </div>

@@ -30,7 +30,7 @@ const EventTypes = ({
     <>
       {events}
       {error && typeof error === 'string' && (
-        <div className="label-text-alt text-red-500">{error}</div>
+        <div className="mt-1 text-xs text-destructive">{error}</div>
       )}
     </>
   );

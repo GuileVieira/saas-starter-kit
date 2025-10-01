@@ -1,8 +1,7 @@
-import { Button } from 'react-daisyui';
-import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
-
+import { Button } from '@/components/ui/button';
 import { Invitation } from '@prisma/client';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 
 interface NotAuthenticatedProps {
   invitation: Invitation;

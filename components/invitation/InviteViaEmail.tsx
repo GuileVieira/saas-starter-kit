@@ -3,13 +3,14 @@ import * as Yup from 'yup';
 import { mutate } from 'swr';
 import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
-import { Button, Input } from 'react-daisyui';
-import { useTranslation } from 'next-i18next';
-
-import type { ApiResponse } from 'types';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { defaultHeaders, maxLengthPolicies } from '@/lib/common';
 import { availableRoles } from '@/lib/permissions';
 import type { Team } from '@prisma/client';
+import { useTranslation } from 'next-i18next';
+
+import type { ApiResponse } from 'types';
 
 interface InviteViaEmailProps {
   team: Team;
@@ -58,19 +59,21 @@ const InviteViaEmail = ({ setVisible, team }: InviteViaEmailProps) => {
 
   return (
     <form onSubmit={formik.handleSubmit} method="POST" className="pb-6">
-      <h3 className="font-medium text-[14px] pb-2">{t('invite-via-email')}</h3>
-      <div className="flex gap-1">
+      <h3 className="pb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
+        {t('invite-via-email')}
+      </h3>
+      <div className="flex gap-2">
         <Input
           name="email"
           onChange={formik.handleChange}
           value={formik.values.email}
           placeholder="jackson@boxyhq.com"
           required
-          className="text-sm w-1/2"
+          className="w-1/2 text-sm"
           type="email"
         />
         <select
-          className="select-bordered select rounded"
+          className="w-40 rounded-lg border border-border/50 bg-card px-3 py-2 text-sm text-foreground shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand"
           name="role"
           onChange={formik.handleChange}
           value={formik.values.role}
@@ -84,7 +87,7 @@ const InviteViaEmail = ({ setVisible, team }: InviteViaEmailProps) => {
         </select>
         <Button
           type="submit"
-          color="primary"
+          variant="primary"
           loading={formik.isSubmitting}
           disabled={!formik.isValid || !formik.dirty}
           className="flex-grow"

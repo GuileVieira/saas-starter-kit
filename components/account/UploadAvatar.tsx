@@ -1,13 +1,13 @@
-import toast from 'react-hot-toast';
-import { Button } from 'react-daisyui';
-import { useTranslation } from 'next-i18next';
-import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowUpCircleIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'next-i18next';
+import React, { useCallback, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-import type { ApiResponse } from 'types';
-import type { User } from '@prisma/client';
 import { Card } from '@/components/shared';
+import { Button } from '@/components/ui/button';
 import { defaultHeaders } from '@/lib/common';
+import type { User } from '@prisma/client';
+import type { ApiResponse } from 'types';
 
 const UploadAvatar = ({ user }: { user: Partial<User> }) => {
   const { t } = useTranslation('common');
@@ -97,7 +97,7 @@ const UploadAvatar = ({ user }: { user: Partial<User> }) => {
           <div>
             <label
               htmlFor="image"
-              className="group relative mt-1 flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-full border border-gray-300 bg-white transition-all hover:bg-gray-50"
+              className="group relative mt-1 flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-full border border-border/40 bg-card text-muted-foreground transition-all hover:border-brand/60 hover:text-brand"
             >
               <div
                 className="absolute z-[5] h-full w-full rounded-full"
@@ -121,18 +121,18 @@ const UploadAvatar = ({ user }: { user: Partial<User> }) => {
               <div
                 className={`${
                   dragActive
-                    ? 'cursor-copy border-2 border-black bg-gray-50 opacity-100'
-                    : ''
-                } absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-full bg-white transition-all ${
+                    ? 'cursor-copy border border-brand bg-brand/10 opacity-100'
+                    : 'border border-transparent'
+                } absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-full bg-card transition-all ${
                   image
                     ? 'opacity-0 group-hover:opacity-100'
-                    : 'group-hover:bg-gray-50'
+                    : 'group-hover:bg-card/80'
                 }`}
               >
                 <ArrowUpCircleIcon
                   className={`${
                     dragActive ? 'scale-110' : 'scale-100'
-                  } h-50 w-50 text-gray-500 transition-all duration-75 group-hover:scale-110 group-active:scale-95`}
+                  } h-10 w-10 text-current transition-all duration-75 group-hover:scale-110 group-active:scale-95`}
                 />
               </div>
               {image && (
@@ -159,7 +159,7 @@ const UploadAvatar = ({ user }: { user: Partial<User> }) => {
         <Card.Footer>
           <Button
             type="submit"
-            color="primary"
+            variant="primary"
             size="md"
             disabled={!image || image === user.image}
             loading={loading}

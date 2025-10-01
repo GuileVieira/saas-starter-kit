@@ -1,18 +1,19 @@
-import { AuthLayout } from '@/components/layouts';
-import { Alert, InputWithLabel } from '@/components/shared';
-import { defaultHeaders } from '@/lib/common';
+import { useState, type ReactElement, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState, type ReactElement, useEffect } from 'react';
-import { Button } from 'react-daisyui';
-import type { ComponentStatus } from 'react-daisyui/dist/types';
-import { toast } from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
-import { ApiResponse, NextPageWithLayout } from 'types';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
+
+import { AuthLayout } from '@/components/layouts';
+import { Alert, InputWithLabel } from '@/components/shared';
+import type { AlertStatus } from '@/components/shared/Alert';
+import { Button } from '@/components/ui/button';
+import { defaultHeaders } from '@/lib/common';
+import { ApiResponse, NextPageWithLayout } from 'types';
 
 const VerifyAccount: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -21,7 +22,7 @@ const VerifyAccount: NextPageWithLayout<
   const { t } = useTranslation('common');
   const [message, setMessage] = useState<{
     text: string | null;
-    status: ComponentStatus | null;
+    status: AlertStatus | null;
   }>({
     text: null,
     status: null,
@@ -86,11 +87,11 @@ const VerifyAccount: NextPageWithLayout<
           <div className="mt-4">
             <Button
               type="submit"
-              color="primary"
+              variant="primary"
               loading={formik.isSubmitting}
-              active={formik.dirty}
               fullWidth
               size="md"
+              disabled={!formik.dirty || !formik.isValid}
             >
               {t('resend-link')}
             </Button>

@@ -1,6 +1,6 @@
-import { Button } from 'react-daisyui';
-import { useTranslation } from 'next-i18next';
+import { Button } from '@/components/ui/button';
 import { useCustomSignOut } from 'hooks/useCustomSignout';
+import { useTranslation } from 'next-i18next';
 
 interface EmailMismatchProps {
   email: string;
@@ -20,9 +20,8 @@ const EmailMismatch = ({ email }: EmailMismatchProps) => {
       </p>
       <Button
         fullWidth
-        color="error"
+        variant="destructive"
         size="md"
-        variant="outline"
         onClick={signOut}
       >
         {t('logout')}

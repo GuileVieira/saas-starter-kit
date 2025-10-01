@@ -1,11 +1,12 @@
-import toast from 'react-hot-toast';
-import { Button } from 'react-daisyui';
 import { useTranslation } from 'next-i18next';
+import toast from 'react-hot-toast';
 
+import { Card } from '@/components/shared';
+import { Button } from '@/components/ui/button';
 import useTeam from 'hooks/useTeam';
-import { Price } from '@prisma/client';
+import { Price, Service, Subscription } from '@prisma/client';
+
 import PaymentButton from './PaymentButton';
-import { Service, Subscription } from '@prisma/client';
 
 interface ProductPricingProps {
   plans: any[];
@@ -46,22 +47,21 @@ const ProductPricing = ({ plans, subscriptions }: ProductPricingProps) => {
 
   return (
     <section className="py-3">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {plans.map((plan) => {
           return (
-            <div
-              className="relative rounded-md bg-white border border-gray-200"
-              key={plan.id}
-            >
-              <div className="p-8">
-                <div className="flex items-center space-x-2">
-                  <h3 className="font-display text-2xl font-bold text-black">
+            <Card key={plan.id} variant="surface" className="h-full">
+              <Card.Body className="gap-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-semibold text-foreground">
                     {plan.name}
                   </h3>
                 </div>
-                <p className="mt-2 text-gray-500 h-20">{plan.description}</p>
-              </div>
-              <div className="flex justify-center flex-col gap-2 border-gray-200 px-8 h-10">
+                <p className="min-h-[4.5rem] text-sm text-muted-foreground">
+                  {plan.description}
+                </p>
+              </Card.Body>
+              <div className="flex flex-col gap-2 px-6 pb-6">
                 {plan.prices.map((price: Price) =>
                   hasActiveSubscription(price) ? (
                     <Button
@@ -84,11 +84,11 @@ const ProductPricing = ({ plans, subscriptions }: ProductPricingProps) => {
                   )
                 )}
               </div>
-              <ul className="mb-10 mt-5 space-y-4 px-8">
+              <ul className="mb-6 mt-4 space-y-3 px-6 pb-4 text-sm text-muted-foreground">
                 {plan.features.map((feature: string) => (
                   <li className="flex space-x-4" key={`${plan.id}-${feature}`}>
                     <svg
-                      className="h-6 w-6 flex-none text-black"
+                      className="h-5 w-5 flex-none text-brand"
                       viewBox="0 0 24 24"
                       width={24}
                       height={24}
@@ -104,11 +104,11 @@ const ProductPricing = ({ plans, subscriptions }: ProductPricingProps) => {
                         stroke="white"
                       />
                     </svg>
-                    <p className="text-gray-600">{feature}</p>
+                    <p>{feature}</p>
                   </li>
                 ))}
               </ul>
-            </div>
+            </Card>
           );
         })}
       </div>

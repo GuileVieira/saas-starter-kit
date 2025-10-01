@@ -156,17 +156,15 @@ const Login: NextPageWithLayout<
                   placeholder={t('password')}
                   value={formik.values.password}
                   label={
-                    <label className="label">
-                      <span className="label-text">{t('password')}</span>
-                      <span className="label-text-alt">
-                        <Link
-                          href="/auth/forgot-password"
-                          className="text-sm font-medium text-brand hover:text-brand/80"
-                        >
-                          {t('forgot-password')}
-                        </Link>
-                      </span>
-                    </label>
+                    <div className="flex items-center justify-between text-sm font-medium text-muted-foreground">
+                      <span>{t('password')}</span>
+                      <Link
+                        href="/auth/forgot-password"
+                        className="text-sm font-medium text-brand hover:text-brand/80"
+                      >
+                        {t('forgot-password')}
+                      </Link>
+                    </div>
                   }
                   error={
                     formik.touched.password ? formik.errors.password : undefined

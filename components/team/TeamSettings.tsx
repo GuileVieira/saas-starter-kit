@@ -1,11 +1,11 @@
 import { Card, InputWithLabel } from '@/components/shared';
+import { Button } from '@/components/ui/button';
 import { defaultHeaders } from '@/lib/common';
 import { Team } from '@prisma/client';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import type { ApiResponse } from 'types';
 
@@ -92,7 +92,7 @@ const TeamSettings = ({ team }: { team: Team }) => {
               <div className="flex justify-end">
                 <Button
                   type="submit"
-                  color="primary"
+                  variant="primary"
                   loading={formik.isSubmitting}
                   disabled={!formik.isValid || !formik.dirty}
                   size="md"

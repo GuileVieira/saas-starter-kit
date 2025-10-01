@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react';
 import { InputWithLabel } from '@/components/shared';
-import { defaultHeaders, passwordPolicies } from '@/lib/common';
+import { Button } from '@/components/ui/button';
+import { defaultHeaders, passwordPolicies, maxLengthPolicies } from '@/lib/common';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import type { ApiResponse } from 'types';
 import * as Yup from 'yup';
@@ -12,7 +12,6 @@ import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
 import AgreeMessage from './AgreeMessage';
 import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { maxLengthPolicies } from '@/lib/common';
 
 interface JoinProps {
   recaptchaSiteKey: string | null;
@@ -135,11 +134,11 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
       <div className="mt-3 space-y-3">
         <Button
           type="submit"
-          color="primary"
+          variant="primary"
           loading={formik.isSubmitting}
-          active={formik.dirty}
           fullWidth
           size="md"
+          disabled={!formik.dirty || !formik.isValid}
         >
           {t('create-account')}
         </Button>

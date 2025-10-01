@@ -1,14 +1,14 @@
 import { Card } from '@/components/shared';
+import { Button } from '@/components/ui/button';
+import { defaultHeaders } from '@/lib/common';
 import { Team } from '@prisma/client';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
+import type { ApiResponse } from 'types';
 
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import { defaultHeaders } from '@/lib/common';
-import type { ApiResponse } from 'types';
 
 interface RemoveTeamProps {
   team: Team;
@@ -57,10 +57,9 @@ const RemoveTeam = ({ team, allowDelete }: RemoveTeamProps) => {
         {allowDelete && (
           <Card.Footer>
             <Button
-              color="error"
+              variant="destructive"
               onClick={() => setAskConfirmation(true)}
               loading={loading}
-              variant="outline"
               size="md"
             >
               {t('remove-team')}

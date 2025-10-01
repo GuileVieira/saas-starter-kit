@@ -20,8 +20,6 @@
     "paths": {
       "@/lib/*": ["lib/*"],
       "@/components/*": ["components/*"],
-      "react-daisyui": ["components/ui/daisy"],
-      "react-daisyui/dist/types": ["components/ui/daisy-types"],
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next-auth.d.ts"],

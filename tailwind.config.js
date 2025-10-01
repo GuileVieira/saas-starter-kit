@@ -61,28 +61,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('daisyui')],
-  daisyui: {
-    themes: [
-      {
-        modern: {
-          primary: '#3b82f6',
-          'primary-focus': '#2563eb',
-          'primary-content': '#ffffff',
-          neutral: '#1f2937',
-          'neutral-focus': '#111827',
-          'neutral-content': '#f9fafb',
-          accent: '#38bdf8',
-          'accent-focus': '#0ea5e9',
-          'accent-content': '#0f172a',
-          info: '#0ea5e9',
-          success: '#22c55e',
-          warning: '#f97316',
-          error: '#ef4444',
-        },
-      },
-      'dark',
-    ],
-    logs: false,
-  },
+  plugins: [require('@tailwindcss/typography')],
 };

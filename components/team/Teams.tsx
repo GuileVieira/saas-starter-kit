@@ -1,18 +1,18 @@
-import { LetterAvatar } from '@/components/shared';
+import { LetterAvatar, WithLoadingAndError } from '@/components/shared';
+import { Button } from '@/components/ui/button';
+import { CreateTeam } from '@/components/team';
+import { Table } from '@/components/shared/table/Table';
 import { defaultHeaders } from '@/lib/common';
 import { Team } from '@prisma/client';
 import useTeams from 'hooks/useTeams';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import type { ApiResponse } from 'types';
 import { useRouter } from 'next/router';
+
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import { WithLoadingAndError } from '@/components/shared';
-import { CreateTeam } from '@/components/team';
-import { Table } from '@/components/shared/table/Table';
 
 const Teams = () => {
   const router = useRouter();
@@ -60,7 +60,7 @@ const Teams = () => {
             </p>
           </div>
           <Button
-            color="primary"
+            variant="primary"
             size="md"
             onClick={() => setCreateTeamVisible(!createTeamVisible)}
           >

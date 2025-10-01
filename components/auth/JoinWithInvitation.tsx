@@ -1,27 +1,29 @@
+import { useRef, useState } from 'react';
+import { useFormik } from 'formik';
+import useInvitation from 'hooks/useInvitation';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
+import * as Yup from 'yup';
+import ReCAPTCHA from 'react-google-recaptcha';
+
 import {
   Error,
   InputWithLabel,
   Loading,
   WithLoadingAndError,
 } from '@/components/shared';
+import { Button } from '@/components/ui/button';
 import {
   defaultHeaders,
   maxLengthPolicies,
   passwordPolicies,
 } from '@/lib/common';
-import { useFormik } from 'formik';
-import useInvitation from 'hooks/useInvitation';
-import { useTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
-import { Button } from 'react-daisyui';
-import toast from 'react-hot-toast';
 import type { ApiResponse } from 'types';
-import * as Yup from 'yup';
-import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
-import { useRef, useState } from 'react';
+
 import AgreeMessage from './AgreeMessage';
 import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
-import ReCAPTCHA from 'react-google-recaptcha';
+import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
 
 interface JoinWithInvitationProps {
   inviteToken: string;
@@ -158,11 +160,11 @@ const JoinWithInvitation = ({
         <div className="space-y-3">
           <Button
             type="submit"
-            color="primary"
+            variant="primary"
             loading={formik.isSubmitting}
-            active={formik.dirty}
             fullWidth
             size="md"
+            disabled={!formik.dirty || !formik.isValid}
           >
             {t('create-account')}
           </Button>

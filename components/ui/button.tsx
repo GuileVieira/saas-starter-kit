@@ -18,6 +18,8 @@ export interface ButtonProps
   icon?: React.ReactNode;
   trailingIcon?: React.ReactNode;
   children?: React.ReactNode | React.ReactNode[] | string | number | Record<string, unknown>;
+  loading?: boolean;
+  fullWidth?: boolean;
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -28,7 +30,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   ghost:
     'bg-transparent text-foreground border-transparent hover:bg-foreground/10 hover:text-brand',
   outline:
-    'bg-transparent text-foreground border border-border/60 hover:border-brand hover:text-brand shadow-none',
+    'bg-transparent text-muted-foreground border border-border/50 hover:border-brand/60 hover:text-brand shadow-none',
   destructive:
     'bg-destructive/90 text-destructive-foreground hover:bg-destructive/85 active:bg-destructive/80 border border-destructive/70 shadow-sm',
 };
@@ -66,6 +68,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       trailingIcon,
       children,
       type = 'button',
+      loading = false,
+      fullWidth = false,
       ...props
     },
     ref
@@ -82,10 +86,38 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type={type}
-        className={buttonClassName({ variant, size, className })}
+        className={cn(
+          buttonClassName({ variant, size, className }),
+          fullWidth && 'w-full',
+          loading && 'pointer-events-none opacity-70'
+        )}
+        disabled={props.disabled || loading}
         {...props}
       >
-        {icon ? (
+        {loading ? (
+          <span className="flex items-center text-inherit">
+            <svg
+              className="mr-2 h-4 w-4 animate-spin"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              />
+            </svg>
+          </span>
+        ) :
+        icon ? (
           <span className="flex items-center text-inherit">{icon}</span>
         ) : null}
         {content}

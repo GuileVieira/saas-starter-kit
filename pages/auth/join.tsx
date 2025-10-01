@@ -57,7 +57,13 @@ const Signup: NextPageWithLayout<
         </div>
 
         {(authProviders.github || authProviders.google) &&
-          authProviders.credentials && <div className="divider">{t('or')}</div>}
+          authProviders.credentials && (
+            <div className="my-6 flex items-center gap-3 text-sm uppercase tracking-wide text-muted-foreground">
+              <span className="h-px flex-1 bg-border/60" />
+              {t('or')}
+              <span className="h-px flex-1 bg-border/60" />
+            </div>
+          )}
 
         {authProviders.credentials && (
           <>
