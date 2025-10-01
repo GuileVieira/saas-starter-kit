@@ -1,5 +1,10 @@
-import React from 'react';
-import { Checkbox } from 'react-daisyui';
+import type React from 'react';
+
+import cn from '@/lib/cn';
+
+interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+}
 
 const CheckboxComponent = ({
   onChange,
@@ -8,27 +13,21 @@ const CheckboxComponent = ({
   label,
   defaultChecked,
   className,
-}: {
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  name: string;
-  value: string;
-  label: string;
-  defaultChecked: boolean;
-  className?: string;
-}) => {
+  ...rest
+}: CheckboxProps) => {
   return (
-    <div className={`flex items-center ${className || ''}`} key={value}>
-      <label className="flex items-center gap-2 text-sm">
-        <Checkbox
-          name={name}
-          value={value}
-          onChange={onChange}
-          defaultChecked={Boolean(defaultChecked)}
-          className="h-4 w-4 rounded [--chkfg:oklch(var(--p))] [--chkbg:white]"
-        />
-        <span className="text-gray-700">{label}</span>
-      </label>
-    </div>
+    <label className={cn('flex items-center gap-2 text-sm text-muted-foreground', className)}>
+      <input
+        type="checkbox"
+        name={name}
+        value={value}
+        onChange={onChange}
+        defaultChecked={Boolean(defaultChecked)}
+        className="h-4 w-4 rounded border-border text-brand focus:ring-brand"
+        {...rest}
+      />
+      <span className="text-foreground">{label}</span>
+    </label>
   );
 };
 

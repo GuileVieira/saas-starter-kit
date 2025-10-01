@@ -3,6 +3,7 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 
 import { Card } from '@/components/shared';
+import { buttonClassName } from '@/components/ui/button';
 
 const Help = () => {
   const { t } = useTranslation('common');
@@ -17,12 +18,18 @@ const Help = () => {
         <div>
           <Link
             href={process.env.NEXT_PUBLIC_SUPPORT_URL || ''}
-            className="btn btn-primary btn-outline btn-sm"
+            className={buttonClassName({
+              variant: 'primary',
+              size: 'sm',
+              className: 'inline-flex w-fit',
+            })}
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t('contact-support')}
-            <ArrowTopRightOnSquareIcon className="w-5 h-5 ml-2" />
+            <span className="flex items-center gap-2">
+              {t('contact-support')}
+              <ArrowTopRightOnSquareIcon className="h-4 w-4" />
+            </span>
           </Link>
         </div>
       </Card.Body>

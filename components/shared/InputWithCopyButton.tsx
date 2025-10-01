@@ -1,36 +1,47 @@
-import { Input, InputProps } from 'react-daisyui';
+import type React from 'react';
 
+import cn from '@/lib/cn';
 import { CopyToClipboardButton } from '@/components/shared';
 
-interface InputWithCopyButtonProps extends InputProps {
+interface InputWithCopyButtonProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   description?: string;
 }
 
-const InputWithCopyButton = (props: InputWithCopyButtonProps) => {
-  const { label, value, description, ...rest } = props;
+const baseInputClasses =
+  'w-full rounded-lg border border-border bg-card px-4 py-2 text-sm text-foreground shadow-sm transition-colors duration-200 ease-soft-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand disabled:cursor-not-allowed disabled:opacity-60';
 
-  const id = label.replace(/ /g, '');
+const InputWithCopyButton = ({
+  label,
+  value,
+  description,
+  className,
+  ...rest
+}: InputWithCopyButtonProps) => {
+  const id = label.replace(/\s+/g, '').toLowerCase();
 
   return (
-    <div className="form-control w-full">
-      <div className="flex justify-between items-center">
-        <label className="label pl-0" htmlFor={id}>
-          <span className="label-text">{label}</span>
+    <div className="flex w-full flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <label
+          className="text-sm font-medium uppercase tracking-wide text-muted-foreground"
+          htmlFor={id}
+        >
+          {label}
         </label>
         <CopyToClipboardButton value={value?.toString() || ''} />
       </div>
-      <Input
+      <input
         id={id}
-        className="input input-bordered w-full text-sm"
-        {...rest}
+        className={cn(baseInputClasses, className)}
         value={value}
+        readOnly
+        {...rest}
       />
-      {description && (
-        <label className="label">
-          <span className="label-text-alt">{description}</span>
-        </label>
-      )}
+      {description ? (
+        <span className="text-xs text-muted-foreground">{description}</span>
+      ) : null}
     </div>
   );
 };

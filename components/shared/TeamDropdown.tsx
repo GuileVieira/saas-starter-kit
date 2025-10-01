@@ -5,23 +5,42 @@ import {
   RectangleStackIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import useTeams from 'hooks/useTeams';
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
+
 import { maxLengthPolicies } from '@/lib/common';
+import useTeams from 'hooks/useTeams';
+import cn from '@/lib/cn';
+import { Button } from '@/components/ui/button';
 
 const TeamDropdown = () => {
   const router = useRouter();
   const { teams } = useTeams();
   const { data } = useSession();
   const { t } = useTranslation('common');
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const currentTeam = (teams || []).find(
     (team) => team.slug === router.query.slug
   );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const menus = [
     {
@@ -67,54 +86,57 @@ const TeamDropdown = () => {
   ];
 
   return (
-    <div className="dropdown w-full">
+    <div className="relative" ref={dropdownRef}>
+      <Button
+        variant="secondary"
+        size="md"
+        className="w-full justify-between rounded-[var(--radius-md)] px-4"
+        onClick={() => setOpen((state) => !state)}
+        trailingIcon={<ChevronUpDownIcon className="h-4 w-4 text-muted-foreground" />}
+      >
+        <span className="truncate text-left text-base font-semibold">
+          {currentTeam?.name ||
+            data?.user?.name?.substring(
+              0,
+              maxLengthPolicies.nameShortDisplay
+            ) ||
+            t('teams')}
+        </span>
+      </Button>
+
       <div
-        tabIndex={0}
-        className="border border-gray-300 dark:border-gray-600 flex h-10 items-center px-4 justify-between cursor-pointer rounded text-sm font-bold"
+        className={cn(
+          'absolute left-0 right-0 top-[calc(100%+0.75rem)] z-20 overflow-hidden rounded-[var(--radius-md)] border border-white/40 bg-white/90 shadow-elevated backdrop-blur-2xl transition-all duration-200 dark:border-white/10 dark:bg-[#121620]/90',
+          open
+            ? 'pointer-events-auto translate-y-0 opacity-100'
+            : 'pointer-events-none -translate-y-2 opacity-0'
+        )}
       >
-        {currentTeam?.name ||
-          data?.user?.name?.substring(
-            0,
-            maxLengthPolicies.nameShortDisplay
-          )}{' '}
-        <ChevronUpDownIcon className="w-5 h-5" />
-      </div>
-      <ul
-        tabIndex={0}
-        className="dropdown-content dark:border-gray-600 p-2 shadow-md bg-base-100 w-full rounded border px-2"
-      >
-        {menus.map(({ id, name, items }) => {
-          return (
-            <React.Fragment key={id}>
-              {name && (
-                <li
-                  className="text-xs text-gray-500 py-1 px-2"
-                  key={`${id}-name`}
-                >
+        <div className="flex flex-col gap-3 p-3">
+          {menus.map(({ id, name, items }) => (
+            <div key={id} className="flex flex-col gap-2">
+              {name ? (
+                <span className="px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                   {name}
-                </li>
-              )}
-              {items.map((item) => (
-                <li
-                  key={`${id}-${item.id}`}
-                  onClick={() => {
-                    if (document.activeElement) {
-                      (document.activeElement as HTMLElement).blur();
-                    }
-                  }}
-                >
-                  <Link href={item.href}>
-                    <div className="flex hover:bg-gray-100 hover:dark:text-black focus:bg-gray-100 focus:outline-none py-2 px-2 rounded text-sm font-medium gap-2 items-center">
-                      <item.icon className="w-5 h-5" /> {item.name}
-                    </div>
+                </span>
+              ) : null}
+              <div className="flex flex-col gap-1">
+                {items.map((item) => (
+                  <Link
+                    key={`${id}-${item.id}`}
+                    href={item.href}
+                    className="flex items-center gap-3 rounded-[var(--radius-sm)] px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-brand/10 hover:text-foreground"
+                    onClick={() => setOpen(false)}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span className="truncate">{item.name}</span>
                   </Link>
-                </li>
-              ))}
-              {name && <li className="divider m-0" key={`${id}-divider`} />}
-            </React.Fragment>
-          );
-        })}
-      </ul>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

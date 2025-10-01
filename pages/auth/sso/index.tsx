@@ -9,12 +9,12 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, useState } from 'react';
-import { Button } from 'react-daisyui';
 import { toast } from 'react-hot-toast';
 import type { NextPageWithLayout } from 'types';
 import * as Yup from 'yup';
 import Head from 'next/head';
 import { maxLengthPolicies } from '@/lib/common';
+import { Button, buttonClassName } from '@/components/ui/button';
 
 const SSO: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -81,7 +81,7 @@ const SSO: NextPageWithLayout<
       <Head>
         <title>{t('signin-with-saml-sso')}</title>
       </Head>
-      <div className="rounded p-6 border">
+      <div className="glass-panel border border-white/30 p-6 shadow-glass dark:border-white/10">
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-2">
             {useEmail ? (
@@ -108,22 +108,37 @@ const SSO: NextPageWithLayout<
             )}
             <Button
               type="submit"
-              color="primary"
-              loading={formik.isSubmitting}
-              active={formik.dirty}
-              fullWidth
+              variant="primary"
               size="md"
+              className="w-full justify-center"
+              disabled={!formik.dirty || formik.isSubmitting}
             >
-              {t('continue-with-saml-sso')}
+              {formik.isSubmitting
+                ? `${t('continue-with-saml-sso')}...`
+                : t('continue-with-saml-sso')}
             </Button>
           </div>
         </form>
-        <div className="divider"></div>
+        <div className="my-6 h-px bg-border/60" />
         <div className="space-y-3">
-          <Link href="/auth/login" className="btn btn-outline w-full">
+          <Link
+            href="/auth/login"
+            className={buttonClassName({
+              variant: 'secondary',
+              size: 'md',
+              className: 'w-full justify-center',
+            })}
+          >
             {t('sign-in-with-password')}
           </Link>
-          <Link href="/auth/magic-link" className="btn btn-outline w-full">
+          <Link
+            href="/auth/magic-link"
+            className={buttonClassName({
+              variant: 'secondary',
+              size: 'md',
+              className: 'w-full justify-center',
+            })}
+          >
             {t('sign-in-with-email')}
           </Link>
         </div>

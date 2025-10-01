@@ -1,34 +1,33 @@
 import { useTranslation } from 'next-i18next';
-import { Card } from 'react-daisyui';
+
+import { Card } from '@/components/ui/card';
 
 import faqs from './data/faq.json';
 
 const FAQSection = () => {
   const { t } = useTranslation('common');
+
   return (
-    <section className="py-6">
-      <div className="flex flex-col justify-center space-y-6">
-        <h2 className="text-center text-4xl font-bold normal-case">
+    <section className="space-y-10 py-8">
+      <div className="flex flex-col items-center gap-4 text-center">
+        <h2 className="text-4xl font-semibold md:text-5xl">
           {t('frequently-asked')}
         </h2>
-        <p className="text-center text-xl">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
+        <p className="max-w-3xl text-lg text-muted-foreground">
+          Transparência total: respostas rápidas para as dúvidas mais comuns sobre o kit SaaS.
         </p>
-        <div className="flex items-center justify-center">
-          <div className="grid grid-cols-1 gap-2">
-            {faqs.map((faq, index) => {
-              return (
-                <Card key={index} className="border-none">
-                  <Card.Body className="items-left dark:border-gray-200 border border-gray-300">
-                    <Card.Title tag="h2">Q. {faq.question}</Card.Title>
-                    <p>A. {faq.answer}</p>
-                  </Card.Body>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
+      </div>
+      <div className="mx-auto flex max-w-3xl flex-col gap-4">
+        {faqs.map((faq) => (
+          <Card key={faq.question} variant="surface">
+            <Card.Content className="gap-3 text-left">
+              <Card.Title className="text-xl">{faq.question}</Card.Title>
+              <Card.Description className="text-base leading-relaxed">
+                {faq.answer}
+              </Card.Description>
+            </Card.Content>
+          </Card>
+        ))}
       </div>
     </section>
   );

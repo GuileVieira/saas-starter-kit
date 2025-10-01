@@ -6,11 +6,9 @@ import type {
 import * as Yup from 'yup';
 import Link from 'next/link';
 import { useFormik } from 'formik';
-import { Button } from 'react-daisyui';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { type ReactElement, useEffect, useState, useRef } from 'react';
-import type { ComponentStatus } from 'react-daisyui/dist/types';
 import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -27,10 +25,13 @@ import AgreeMessage from '@/components/auth/AgreeMessage';
 import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { maxLengthPolicies } from '@/lib/common';
+import { Button, buttonClassName } from '@/components/ui/button';
+
+type AlertStatus = 'success' | 'error' | 'warning';
 
 interface Message {
   text: string | null;
-  status: ComponentStatus | null;
+  status: AlertStatus | null;
 }
 
 const Login: NextPageWithLayout<
@@ -121,14 +122,20 @@ const Login: NextPageWithLayout<
           {t(message.text)}
         </Alert>
       )}
-      <div className="rounded p-6 border">
+      <div className="glass-panel border border-white/30 p-6 shadow-glass dark:border-white/10">
         <div className="flex gap-2 flex-wrap">
           {authProviders.github && <GithubButton />}
           {authProviders.google && <GoogleButton />}
         </div>
 
         {(authProviders.github || authProviders.google) &&
-          authProviders.credentials && <div className="divider">{t('or')}</div>}
+          authProviders.credentials && (
+            <div className="my-6 flex items-center gap-3 text-sm uppercase tracking-wide text-muted-foreground">
+              <span className="h-px flex-1 bg-border/60" />
+              {t('or')}
+              <span className="h-px flex-1 bg-border/60" />
+            </div>
+          )}
 
         {authProviders.credentials && (
           <form onSubmit={formik.handleSubmit}>
@@ -154,7 +161,7 @@ const Login: NextPageWithLayout<
                       <span className="label-text-alt">
                         <Link
                           href="/auth/forgot-password"
-                          className="text-sm text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+                          className="text-sm font-medium text-brand hover:text-brand/80"
                         >
                           {t('forgot-password')}
                         </Link>
@@ -180,13 +187,12 @@ const Login: NextPageWithLayout<
             <div className="mt-3 space-y-3">
               <Button
                 type="submit"
-                color="primary"
-                loading={formik.isSubmitting}
-                active={formik.dirty}
-                fullWidth
+                variant="primary"
                 size="md"
+                className="w-full justify-center"
+                disabled={!formik.dirty || formik.isSubmitting}
               >
-                {t('sign-in')}
+                {formik.isSubmitting ? `${t('sign-in')}...` : t('sign-in')}
               </Button>
               <AgreeMessage text={t('sign-in')} />
             </div>
@@ -194,31 +200,42 @@ const Login: NextPageWithLayout<
         )}
 
         {(authProviders.email || authProviders.saml) && (
-          <div className="divider"></div>
+          <div className="my-6 h-px bg-border/60" />
         )}
 
         <div className="space-y-3">
           {authProviders.email && (
             <Link
               href={`/auth/magic-link${params}`}
-              className="btn btn-outline w-full"
+              className={buttonClassName({
+                variant: 'secondary',
+                size: 'md',
+                className: 'w-full justify-center',
+              })}
             >
               &nbsp;{t('sign-in-with-email')}
             </Link>
           )}
 
           {authProviders.saml && (
-            <Link href="/auth/sso" className="btn btn-outline w-full">
+            <Link
+              href="/auth/sso"
+              className={buttonClassName({
+                variant: 'secondary',
+                size: 'md',
+                className: 'w-full justify-center',
+              })}
+            >
               &nbsp;{t('continue-with-saml-sso')}
             </Link>
           )}
         </div>
       </div>
-      <p className="text-center text-sm text-gray-600 mt-3">
+      <p className="mt-3 text-center text-sm text-muted-foreground">
         {t('dont-have-an-account')}
         <Link
           href={`/auth/join${params}`}
-          className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+          className="font-medium text-brand hover:text-brand/80"
         >
           &nbsp;{t('create-a-free-account')}
         </Link>

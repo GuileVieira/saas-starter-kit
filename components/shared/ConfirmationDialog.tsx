@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next';
-import { Button } from 'react-daisyui';
+
 import Modal from './Modal';
+import { Button } from '@/components/ui/button';
 
 interface ConfirmationDialogProps {
   title: string;
@@ -33,10 +34,20 @@ const ConfirmationDialog = ({
       <Modal.Header>{title}</Modal.Header>
       <Modal.Body className="text-sm leading-6">{children}</Modal.Body>
       <Modal.Footer>
-        <Button type="button" variant="outline" onClick={onCancel} size="md">
+        <Button
+          type="button"
+          variant="secondary"
+          size="md"
+          onClick={onCancel}
+        >
           {cancelText || t('cancel')}
         </Button>
-        <Button type="button" color="error" onClick={handleConfirm} size="md">
+        <Button
+          type="button"
+          variant="destructive"
+          size="md"
+          onClick={handleConfirm}
+        >
           {confirmText || t('delete')}
         </Button>
       </Modal.Footer>

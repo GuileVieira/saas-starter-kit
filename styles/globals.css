@@ -3,25 +3,113 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark light;
+  color-scheme: light dark;
+  --background: 215 40% 96%;
+  --foreground: 226 41% 13%;
+  --muted: 215 33% 92%;
+  --muted-foreground: 231 16% 46%;
+  --card: 215 38% 98%;
+  --card-foreground: 226 41% 13%;
+  --popover: 215 38% 98%;
+  --popover-foreground: 226 41% 13%;
+  --border: 220 20% 85%;
+  --input: 219 18% 82%;
+  --ring: 221 83% 60%;
+  --accent: 218 43% 90%;
+  --accent-foreground: 226 41% 13%;
+  --brand: 221 83% 56%;
+  --brand-subtle: 219 100% 95%;
+  --brand-foreground: 0 0% 100%;
+  --destructive: 358 80% 54%;
+  --destructive-foreground: 0 0% 100%;
+  --success: 146 61% 42%;
+  --warning: 40 92% 53%;
+  --glass: rgba(255, 255, 255, 0.48);
+  --radius-xl: 2.25rem;
+  --radius-lg: 1.5rem;
+  --radius-md: 1rem;
+  --radius-sm: 0.75rem;
+}
+
+.dark {
+  --background: 225 50% 8%;
+  --foreground: 214 45% 96%;
+  --muted: 225 32% 14%;
+  --muted-foreground: 220 18% 70%;
+  --card: 225 35% 11%;
+  --card-foreground: 214 45% 96%;
+  --popover: 225 35% 11%;
+  --popover-foreground: 214 45% 96%;
+  --border: 225 28% 24%;
+  --input: 225 28% 24%;
+  --ring: 221 83% 60%;
+  --accent: 225 30% 18%;
+  --accent-foreground: 214 45% 96%;
+  --brand: 221 83% 56%;
+  --brand-subtle: 223 32% 18%;
+  --brand-foreground: 214 45% 96%;
+  --destructive: 358 80% 60%;
+  --destructive-foreground: 223 40% 9%;
+  --success: 146 58% 49%;
+  --warning: 40 94% 62%;
+  --glass: rgba(24, 32, 48, 0.5);
+}
+
+body {
+  @apply min-h-screen bg-background text-foreground antialiased relative overflow-x-hidden;
+  background-color: hsl(var(--background));
+  background-image: radial-gradient(circle at 0% -20%, rgba(80, 120, 220, 0.12), transparent 50%),
+    radial-gradient(circle at 100% 120%, rgba(30, 50, 110, 0.2), transparent 55%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 20% 25%;
+  z-index: -1;
+  filter: blur(100px);
+  opacity: 0.28;
+  background: radial-gradient(circle at 50% 50%, rgba(80, 120, 220, 0.25), transparent 65%);
+}
+
+.dark body::before {
+  background: linear-gradient(135deg, rgba(12, 18, 30, 0.65), rgba(12, 18, 30, 0));
+}
+
+.dark body::after {
+  background: radial-gradient(circle at 50% 50%, rgba(64, 96, 200, 0.3), transparent 65%);
+  opacity: 0.32;
 }
 
 html,
 body {
-  padding: 0;
-  margin: 0;
   font-family:
+    'SF Pro Display',
+    Inter,
     -apple-system,
     BlinkMacSystemFont,
-    Segoe UI,
+    'Segoe UI',
     Roboto,
     Oxygen,
     Ubuntu,
     Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
     sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 a {
@@ -29,60 +117,101 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 @layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tracking-tight text-foreground;
+  }
+
+  h1 {
+    @apply text-4xl font-semibold;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold;
+  }
+
   input:not([type='checkbox']):not([type='radio']),
-  textarea {
-    @apply rounded !important;
+  textarea,
+  select {
+    @apply rounded-lg border border-border bg-card px-4 py-2 text-base text-foreground shadow-sm placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-colors duration-200 ease-soft-in-out;
   }
 }
 
 @layer components {
   #__next {
-    @apply h-full;
+    @apply min-h-screen;
   }
 
-  .btn {
-    @apply rounded normal-case;
+  .glass-panel {
+    background-color: var(--glass);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    @apply shadow-md;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 
-  .modal-box {
-    @apply rounded;
+  .dark .glass-panel {
+    border-color: rgba(255, 255, 255, 0.14);
   }
 
-  .btn-primary:focus-visible {
-    @apply outline-primary;
+  .surface-panel {
+    @apply bg-card/90 backdrop-blur border border-border/70 shadow-md rounded-[var(--radius-lg)];
   }
 
-  .btn-error:focus-visible {
-    @apply outline-error;
+  .elevated {
+    @apply shadow-elevated;
   }
 }
 
-.btn-md {
-  @apply min-h-8 h-10;
+::-webkit-scrollbar {
+  width: 0.65rem;
+  height: 0.65rem;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.45);
+  border-radius: 999px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.65);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.45);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.6);
 }
 
 .scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #555555 #f0f0f0;
-}
-
-.scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scrollbar::-webkit-scrollbar-thumb {
-  background-color: #555555;
-}
-
-.scrollbar::-webkit-scrollbar-track {
-  background-color: #f0f0f0;
-}
-
-.scrollbar::-webkit-scrollbar-button {
-  display: none;
+  scrollbar-color: rgba(100, 116, 139, 0.45) transparent;
 }

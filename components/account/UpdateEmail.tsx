@@ -1,13 +1,14 @@
 import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
-import { Button, Input } from 'react-daisyui';
 
 import type { ApiResponse } from 'types';
 import { Card } from '@/components/shared';
 import { defaultHeaders } from '@/lib/common';
 import type { User } from '@prisma/client';
 import { updateAccountSchema } from '@/lib/zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface UpdateEmailProps {
   user: Partial<User>;
@@ -71,12 +72,11 @@ const UpdateEmail = ({ user, allowEmailChange }: UpdateEmailProps) => {
         <Card.Footer>
           <Button
             type="submit"
-            color="primary"
-            loading={formik.isSubmitting}
-            disabled={!formik.dirty || !formik.isValid}
+            variant="primary"
             size="md"
+            disabled={!formik.dirty || !formik.isValid || formik.isSubmitting}
           >
-            {t('save-changes')}
+            {formik.isSubmitting ? `${t('save-changes')}...` : t('save-changes')}
           </Button>
         </Card.Footer>
       </Card>

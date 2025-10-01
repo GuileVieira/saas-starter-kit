@@ -1,10 +1,11 @@
-import { Button } from 'react-daisyui';
-import Badge from '@/components/shared/Badge';
 import { useTranslation } from 'next-i18next';
 
+import Badge from '@/components/shared/Badge';
+import { Button, buttonClassName } from '@/components/ui/button';
+
 const trClass =
-  'border-b bg-white last:border-b-0 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800';
-const tdClassBase = 'px-6 py-3 text-sm text-gray-500 dark:text-gray-400';
+  'border-b border-border/70 bg-card/80 last:border-b-0 hover:bg-foreground/5 dark:border-white/10';
+const tdClassBase = 'px-6 py-3 text-sm text-muted-foreground';
 const tdClass = `whitespace-nowrap ${tdClassBase}`;
 const tdClassWrap = `break-all ${tdClassBase}`;
 
@@ -76,45 +77,51 @@ export const TableBody = ({
                   }
                 >
                   {!cell.buttons || cell.buttons?.length === 0 ? null : (
-                    <div className="flex space-x-2">
-                      {cell.buttons?.map((button: any, index: number) => {
-                        return (
-                          <Button
-                            key={row.id + '-button-' + index}
-                            size="xs"
-                            color={button.color}
-                            variant="outline"
-                            onClick={button.onClick}
-                          >
-                            {button.text}
-                          </Button>
-                        );
-                      })}
+                    <div className="flex flex-wrap gap-2">
+                      {cell.buttons?.map((button: any, index: number) => (
+                        <Button
+                          key={row.id + '-button-' + index}
+                          size="xs"
+                          variant={button.color === 'error' ? 'destructive' : 'secondary'}
+                          onClick={button.onClick}
+                        >
+                          {button.text}
+                        </Button>
+                      ))}
                     </div>
                   )}
                   {!cell.actions || cell.actions?.length === 0 ? null : (
                     <span className="flex gap-3">
                       {cell.actions?.map((action: any, index: number) => {
                         return (
-                          <div
-                            key={row.id + '-diva-' + index}
-                            className="tooltip"
-                            data-tip={action.text}
+                          <button
+                            key={row.id + '-action-' + index}
+                            className={buttonClassName({
+                              variant: action.destructive ? 'destructive' : 'ghost',
+                              size: 'xs',
+                              className: 'h-8 w-8 rounded-full p-0 text-sm',
+                            })}
+                            onClick={action.onClick}
+                            aria-label={action.text}
                           >
-                            <button
-                              key={row.id + '-action-' + index}
-                              className={`py-2 ${action.destructive ? 'text-red-500 hover:text-red-900' : 'hover:text-green-400'}`}
-                              onClick={action.onClick}
-                            >
-                              {action.icon}
-                            </button>
-                          </div>
+                            {action.icon}
+                          </button>
                         );
                       })}
                     </span>
                   )}
                   {cell.badge ? (
-                    <Badge color={cell.badge.color}>{cell.badge.text}</Badge>
+                    <Badge
+                      variant={
+                        cell.badge.color === 'success'
+                          ? 'success'
+                          : cell.badge.color === 'warning'
+                          ? 'warning'
+                          : 'default'
+                      }
+                    >
+                      {cell.badge.text}
+                    </Badge>
                   ) : null}
                   {cell.text ? cell.text : null}
                   {cell.element ? cell.element : null}

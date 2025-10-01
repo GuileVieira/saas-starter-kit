@@ -1,36 +1,45 @@
-import { Input, InputProps } from 'react-daisyui';
+import type React from 'react';
 
-interface InputWithLabelProps extends InputProps {
+import cn from '@/lib/cn';
+
+interface InputWithLabelProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string | React.ReactNode;
   error?: string;
   descriptionText?: string;
 }
 
-const InputWithLabel = (props: InputWithLabelProps) => {
-  const { label, error, descriptionText, ...rest } = props;
+const baseInputClasses =
+  'w-full rounded-lg border border-border bg-card px-4 py-2 text-sm text-foreground shadow-sm transition-colors duration-200 ease-soft-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand disabled:cursor-not-allowed disabled:opacity-60';
 
-  const classes = ['text-sm'];
-
-  if (error) {
-    classes.push('input-error');
-  }
-
+const InputWithLabel = ({
+  label,
+  error,
+  descriptionText,
+  className,
+  ...rest
+}: InputWithLabelProps) => {
   return (
-    <div className="form-control w-full">
+    <div className="flex w-full flex-col gap-2">
       {typeof label === 'string' ? (
-        <label className="label">
-          <span className="label-text">{label}</span>
+        <label className="text-sm font-medium text-muted-foreground">
+          {label}
         </label>
       ) : (
         label
       )}
-      <Input className={classes.join(' ')} {...rest} />
+      <input
+        className={cn(baseInputClasses, error && 'border-destructive/70 focus:ring-destructive', className)}
+        {...rest}
+      />
       {(error || descriptionText) && (
-        <label className="label">
-          <span className={`label-text-alt ${error ? 'text-red-500' : ''}`}>
-            {error || descriptionText}
-          </span>
-        </label>
+        <span
+          className={cn(
+            'text-xs',
+            error ? 'text-destructive' : 'text-muted-foreground'
+          )}
+        >
+          {error || descriptionText}
+        </span>
       )}
     </div>
   );

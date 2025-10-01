@@ -1,10 +1,12 @@
+import type React from 'react';
 import Link from 'next/link';
-import classNames from 'classnames';
+
+import cn from '@/lib/cn';
 
 export interface MenuItem {
   name: string;
   href: string;
-  icon?: any;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   active?: boolean;
   items?: Omit<MenuItem, 'icon' | 'items'>[];
   className?: string;
@@ -29,15 +31,15 @@ const NavigationItems = ({ menus }: NavigationItemsProps) => {
       {menus.map((menu) => (
         <li key={menu.name}>
           <NavigationItem menu={menu} />
-          {menu.items && (
-            <ul className="flex flex-col gap-1 mt-1">
+          {menu.items && menu.items.length > 0 ? (
+            <ul className="mt-1 flex flex-col gap-1 pl-5">
               {menu.items.map((subitem) => (
                 <li key={subitem.name}>
-                  <NavigationItem menu={subitem} className="pl-9" />
+                  <NavigationItem menu={subitem} className="text-sm" />
                 </li>
               ))}
             </ul>
-          )}
+          ) : null}
         </li>
       ))}
     </ul>
@@ -45,24 +47,31 @@ const NavigationItems = ({ menus }: NavigationItemsProps) => {
 };
 
 const NavigationItem = ({ menu, className }: NavigationItemProps) => {
+  const Icon = menu.icon;
+
   return (
     <Link
       href={menu.href}
-      className={`group flex items-center rounded text-sm text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 px-2 p-2 gap-2 ${
-        menu.active ? 'text-white bg-gray-800 font-semibold' : ''
-      }${className}`}
+      className={cn(
+        'group flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-2 text-sm font-medium transition-colors duration-200 ease-soft-in-out',
+        menu.active
+          ? 'bg-brand/15 text-foreground shadow-glow'
+          : 'text-muted-foreground hover:bg-foreground/5 hover:text-foreground',
+        className
+      )}
     >
-      {menu.icon && (
-        <menu.icon
-          className={classNames({
-            'h-5 w-5 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100':
-              true,
-            'text-gray-100': menu.active,
-          })}
+      {Icon ? (
+        <Icon
+          className={cn(
+            'h-5 w-5 transition-colors',
+            menu.active
+              ? 'text-brand'
+              : 'text-muted-foreground group-hover:text-brand'
+          )}
           aria-hidden="true"
         />
-      )}
-      {menu.name}
+      ) : null}
+      <span>{menu.name}</span>
     </Link>
   );
 };

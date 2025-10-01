@@ -1,7 +1,5 @@
-import { Button } from 'react-daisyui';
 import type { GetServerSidePropsContext } from 'next';
 import { useState, type ReactElement, useEffect } from 'react';
-import type { ComponentStatus } from 'react-daisyui/dist/types';
 import { useTranslation } from 'next-i18next';
 
 import {
@@ -14,6 +12,7 @@ import { defaultHeaders } from '@/lib/common';
 import { AuthLayout } from '@/components/layouts';
 import { unlockAccount } from '@/lib/accountLock';
 import { getUser } from 'models/user';
+import { Button } from '@/components/ui/button';
 
 interface UnlockAccountProps {
   email: string;
@@ -24,7 +23,7 @@ interface UnlockAccountProps {
 
 interface Message {
   text: string | null;
-  status: ComponentStatus | null;
+  status: 'success' | 'error' | null;
 }
 
 const UnlockAccount = ({
@@ -78,19 +77,20 @@ const UnlockAccount = ({
   };
 
   return (
-    <div className="rounded p-6 border">
+    <div className="glass-panel border border-white/30 p-6 shadow-glass dark:border-white/10">
       {message.text && message.status && (
         <Alert status={message.status}>{message.text}</Alert>
       )}
 
       {displayResendLink && (
         <Button
-          wide
-          className="mt-4 btn btn-outline w-full"
+          variant="secondary"
+          size="md"
+          className="mt-4 w-full justify-center"
           onClick={requestNewLink}
-          loading={loading}
+          disabled={loading}
         >
-          {t('request-new-link')}
+          {loading ? `${t('request-new-link')}...` : t('request-new-link')}
         </Button>
       )}
     </div>

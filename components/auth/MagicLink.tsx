@@ -1,4 +1,5 @@
 import { InputWithLabel, Loading } from '@/components/shared';
+import { Button, buttonClassName } from '@/components/ui/button';
 import { maxLengthPolicies } from '@/lib/common';
 import env from '@/lib/env';
 import { useFormik } from 'formik';
@@ -8,7 +9,6 @@ import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 
@@ -70,7 +70,7 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
       <Head>
         <title>{t('magic-link-title')}</title>
       </Head>
-      <div className="rounded p-6 border">
+      <div className="glass-panel border border-white/30 p-6 shadow-glass dark:border-white/10">
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-2">
             <InputWithLabel
@@ -85,25 +85,37 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
             />
             <Button
               type="submit"
-              color="primary"
-              loading={formik.isSubmitting}
-              active={formik.dirty}
-              fullWidth
+              variant="primary"
               size="md"
+              className="w-full justify-center"
+              disabled={formik.isSubmitting || !formik.dirty}
             >
-              {t('send-magic-link')}
+              {formik.isSubmitting
+                ? `${t('send-magic-link')}...`
+                : t('send-magic-link')}
             </Button>
           </div>
         </form>
-        <div className="divider"></div>
+        <div className="my-5 h-px bg-border/70" />
         <div className="space-y-3">
           <Link
             href={`/auth/login/${params}`}
-            className="btn btn-outline w-full"
+            className={buttonClassName({
+              variant: 'secondary',
+              size: 'md',
+              className: 'w-full justify-center',
+            })}
           >
             &nbsp;{t('sign-in-with-password')}
           </Link>
-          <Link href="/auth/sso" className="btn btn-outline w-full">
+          <Link
+            href="/auth/sso"
+            className={buttonClassName({
+              variant: 'secondary',
+              size: 'md',
+              className: 'w-full justify-center',
+            })}
+          >
             &nbsp;{t('continue-with-saml-sso')}
           </Link>
         </div>

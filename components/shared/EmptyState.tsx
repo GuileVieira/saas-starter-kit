@@ -1,4 +1,4 @@
-import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 interface EmptyStateProps {
@@ -8,16 +8,16 @@ interface EmptyStateProps {
 
 const EmptyState = ({ title, description }: EmptyStateProps) => {
   return (
-    <div className="flex w-full flex-col items-center justify-center rounded lg:p-20 border gap-2 bg-white dark:bg-black h-80 border-slate-300 dark:border-white">
-      <InformationCircleIcon className="w-10 h-10" />
-      <h3 className="text-semibold text-emphasis text-center text-lg">
-        {title}
-      </h3>
-      {description && (
-        <p className="text-default text-center font-light leading-6 text-sm">
+    <div className="surface-panel flex h-64 w-full flex-col items-center justify-center gap-3 text-center">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border/60 bg-card/90 text-brand">
+        <InformationCircleIcon className="h-6 w-6" />
+      </div>
+      <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+      {description ? (
+        <p className="max-w-md text-sm text-muted-foreground leading-relaxed">
           {description}
         </p>
-      )}
+      ) : null}
     </div>
   );
 };

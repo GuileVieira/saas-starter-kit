@@ -3,7 +3,6 @@ import { mutate } from 'swr';
 import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
 import React, { useState } from 'react';
-import { Button, Input } from 'react-daisyui';
 import { useTranslation } from 'next-i18next';
 
 import type { ApiResponse } from 'types';
@@ -13,6 +12,7 @@ import type { Team } from '@prisma/client';
 import { defaultHeaders, isValidDomain, maxLengthPolicies } from '@/lib/common';
 import { InputWithCopyButton } from '../shared';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
+import { Button } from '@/components/ui/button';
 
 interface InviteViaLinkProps {
   team: Team;
@@ -104,12 +104,14 @@ const InviteViaLink = ({ team }: InviteViaLinkProps) => {
           value={invitation.url}
           className="text-sm w-full"
         />
-        <p className="text-sm text-slate-500 my-2">
+        <p className="my-2 text-sm text-muted-foreground">
           {invitation.allowedDomains.length > 0
             ? `Anyone with an email address ending with ${invitation.allowedDomains} can use this link to join your team.`
             : 'Anyone can use this link to join your team.'}
           <Button
-            className="btn btn-xs btn-link link-error"
+            variant="ghost"
+            size="xs"
+            className="ml-2 inline-flex px-2 text-destructive hover:text-destructive"
             onClick={() => setShowDelDialog(true)}
           >
             {t('delete-link')}
@@ -130,16 +132,16 @@ const InviteViaLink = ({ team }: InviteViaLinkProps) => {
   return (
     <form onSubmit={formik.handleSubmit} method="POST" className="pt-4">
       <h3 className="font-medium text-[14px] pb-2">{t('invite-via-link')}</h3>
-      <div className="flex gap-1">
-        <Input
+      <div className="flex gap-2">
+        <input
           name="domains"
           onChange={formik.handleChange}
           value={formik.values.domains}
           placeholder="Restrict domain: boxyhq.com"
-          className="text-sm w-1/2"
+          className="w-1/2 text-sm"
         />
         <select
-          className="select-bordered select rounded"
+          className="rounded-lg border border-border bg-card px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-brand"
           name="role"
           onChange={formik.handleChange}
           value={formik.values.role}
@@ -153,15 +155,14 @@ const InviteViaLink = ({ team }: InviteViaLinkProps) => {
         </select>
         <Button
           type="submit"
-          color="primary"
-          loading={formik.isSubmitting}
-          disabled={!formik.isValid}
+          variant="primary"
+          disabled={!formik.isValid || formik.isSubmitting}
           className="flex-grow"
         >
-          {t('create-link')}
+          {formik.isSubmitting ? `${t('create-link')}...` : t('create-link')}
         </Button>
       </div>
-      <p className="text-sm text-slate-500 my-2">
+      <p className="my-2 text-sm text-muted-foreground">
         {formik.values.domains && !formik.errors.domains
           ? `Anyone with an email address ending with ${formik.values.domains} can use this link to join your team.`
           : 'Anyone can use this link to join your team.'}
