@@ -1,20 +1,28 @@
-import styles from 'styles/sdk-override.module.css';
+import { buttonClassName } from '@/components/ui/button';
+import { baseInputClasses } from '@/components/ui/input';
+import cn from '@/lib/cn';
+
+const primaryBtn = buttonClassName({ variant: 'primary', size: 'md' });
+const outlineBtn = buttonClassName({ variant: 'outline', size: 'md' });
+const destructiveBtn = buttonClassName({ variant: 'destructive', size: 'md' });
+const secondaryBtn = buttonClassName({ variant: 'secondary', size: 'md' });
 
 export const BOXYHQ_UI_CSS = {
   button: {
-    ctoa: 'btn btn-md btn-primary',
-    destructive: 'btn btn-md btn-error',
-    cancel: 'btn-md',
+    ctoa: primaryBtn,
+    destructive: destructiveBtn,
+    cancel: outlineBtn,
+    secondary: secondaryBtn,
   },
-  input: `${styles['sdk-input']} input input-bordered`,
-  select: styles['sdk-select'],
-  textarea: styles['sdk-input'],
+  input: baseInputClasses,
+  select: cn(baseInputClasses, 'pr-10'),
+  textarea: cn(baseInputClasses, 'min-h-[9rem] py-3'),
   confirmationPrompt: {
     button: {
-      ctoa: 'btn-md',
-      cancel: 'btn-md',
+      ctoa: primaryBtn,
+      cancel: outlineBtn,
     },
   },
-  secretInput: 'input input-bordered',
+  secretInput: baseInputClasses,
   section: 'mb-8',
 };

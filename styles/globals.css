@@ -17,10 +17,10 @@
   --ring: 221 83% 60%;
   --accent: 218 43% 90%;
   --accent-foreground: 226 41% 13%;
-  --brand: 221 83% 56%;
-  --brand-subtle: 219 100% 95%;
+  --brand: 225 53% 43%;
+  --brand-subtle: 225 60% 86%;
   --brand-foreground: 0 0% 100%;
-  --destructive: 358 80% 54%;
+  --destructive: 2 75% 58%;
   --destructive-foreground: 0 0% 100%;
   --success: 146 61% 42%;
   --warning: 40 92% 53%;
@@ -45,11 +45,11 @@
   --ring: 221 83% 60%;
   --accent: 225 30% 18%;
   --accent-foreground: 214 45% 96%;
-  --brand: 221 83% 56%;
-  --brand-subtle: 223 32% 18%;
-  --brand-foreground: 214 45% 96%;
-  --destructive: 358 80% 60%;
-  --destructive-foreground: 223 40% 9%;
+  --brand: 218 70% 56%;
+  --brand-subtle: 220 40% 20%;
+  --brand-foreground: 214 45% 98%;
+  --destructive: 2 70% 56%;
+  --destructive-foreground: 223 40% 8%;
   --success: 146 58% 49%;
   --warning: 40 94% 62%;
   --glass: rgba(24, 32, 48, 0.5);
@@ -166,7 +166,7 @@ a {
   .glass-panel {
     background-color: var(--glass);
     border-radius: var(--radius-xl);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid hsl(var(--border) / 0.35);
     @apply shadow-md;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -177,7 +177,7 @@ a {
   }
 
   .surface-panel {
-    @apply bg-card/90 backdrop-blur border border-border/70 shadow-md rounded-[var(--radius-lg)];
+    @apply bg-card/90 backdrop-blur border border-border/40 shadow-md rounded-[var(--radius-lg)];
   }
 
   .elevated {

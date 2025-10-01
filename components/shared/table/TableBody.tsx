@@ -4,7 +4,7 @@ import Badge from '@/components/shared/Badge';
 import { Button, buttonClassName } from '@/components/ui/button';
 
 const trClass =
-  'border-b border-border/70 bg-card/80 last:border-b-0 hover:bg-foreground/5 dark:border-white/10';
+  'border-b border-border/40 bg-card/90 last:border-b-0 transition-colors hover:bg-foreground/5';
 const tdClassBase = 'px-6 py-3 text-sm text-muted-foreground';
 const tdClass = `whitespace-nowrap ${tdClassBase}`;
 const tdClassWrap = `break-all ${tdClassBase}`;
@@ -117,6 +117,8 @@ export const TableBody = ({
                           ? 'success'
                           : cell.badge.color === 'warning'
                           ? 'warning'
+                          : cell.badge.color === 'error'
+                          ? 'neutral'
                           : 'default'
                       }
                     >

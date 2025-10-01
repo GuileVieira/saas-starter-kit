@@ -4,6 +4,8 @@ import { Team, TeamMember } from '@prisma/client';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 import type { ApiResponse } from 'types';
+import cn from '@/lib/cn';
+import { baseInputClasses } from '@/components/ui/input';
 
 interface UpdateMemberRoleProps {
   team: Team;
@@ -35,7 +37,10 @@ const UpdateMemberRole = ({ team, member }: UpdateMemberRoleProps) => {
 
   return (
     <select
-      className="select select-bordered select-sm rounded"
+      className={cn(
+        baseInputClasses,
+        'h-9 w-32 rounded-md border-border/40 bg-card/90 text-sm'
+      )}
       defaultValue={member.role}
       onChange={(e) => updateRole(member, e.target.value)}
     >
